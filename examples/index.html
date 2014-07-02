@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <title>Test of fox-range</title>
+        <link rel="stylesheet" href="../../fox-core/dist/foxui.css">
+        <script src="../../fox-core/dist/foxui.js"></script>
+        <link rel="import" href="../../fox-toolbar/dist/fox-toolbar.html"/>
+        <link rel="import" href="../../fox-page/dist/fox-page.html"/>
+        <link rel="import" href="../../fox-icon/dist/fox-icon.html"/>
+        <link rel="import" href="../../fox-page-content/dist/fox-page-content.html"/>
+        <link rel="import" href="../dist/fox-range.html"/>
+        <style>
+            body{
+                padding: 10px;
+                -webkit-transition: opacity .1s linear;
+            }
+
+            body[unresolved]{
+                opacity: 0;
+            }
+
+            fox-page{
+                text-align: center;
+            }
+
+        </style>
+        <style>
+
+        ul, li{
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        li{
+            position: relative;
+            padding: 20px;
+            border-bottom: 1px solid #ccc;
+            background-color: #eee;
+        }
+
+        li.selected{
+            background-color: #fff;
+        }
+
+
+        li:last-child{
+            border-bottom: none;
+        }
+
+        li label{
+            position: absolute;
+            display: block;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            padding-left: 5px;
+            line-height: 61px;
+            font-size: 25px;
+            color: hotpink;
+            text-align: left;
+        }
+
+        </style>
+    </head>
+    <body unresolved>
+        <fox-toolbar title="fox-range">
+        </fox-toolbar>
+
+        <fox-page>
+            <fox-page-content>
+
+                <ul>
+                    <li><label>10</label><fox-range value=10></fox-range></li>
+                    <li><label>20</label><fox-range value=20></fox-range></li>
+                    <li><label>30</label><fox-range value=30></fox-range></li>
+                    <li><label>40</label><fox-range value=40></fox-range></li>
+                    <li><label>50</label><fox-range value=50></fox-range></li>
+                    <li><label>60</label><fox-range value=60></fox-range></li>
+                    <li><label>70</label><fox-range value=70 max=500 step=5></fox-range></li>
+                </ul>
+            </fox-page-content>
+        </fox-page>
+
+        <script>
+            document.addEventListener('HTMLImportsLoaded', function(){
+                document.body.removeAttribute('unresolved');
+            }, false);
+
+            document.addEventListener('change', function(e){
+                var target = e.target.parentNode;
+                if (target.tagName.toLowerCase() === 'fox-range') {
+                    target.previousElementSibling.textContent = target.value;
+                }
+            }, false);
+
+            // var pages = document.querySelectorAll('fox-page');
+            // pages = [].slice.apply(pages);
+
+            // pages.forEach(function(page) {
+            //     page.addEventListener('beforeshow', function() {
+            //         var data = this.querySelector('fox-ajax');
+
+            //         !data.response && data.go();
+            //     }, false);
+            // });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,64 @@
+
+// Variables
+@import "../../fox-core/sass/variables.scss";
+
+// Mixins
+@import "../../fox-core/sass/mixins.scss";
+
+// Components
+// --------------------------------------------------
+
+$height: 2px;
+$activeBarColor: #53d76a;
+$defaultBarColor: #ccc;
+
+$handleHeight: 28px;
+
+
+fox-range {
+    display: inline-block;
+    width: 200px;
+    position: relative;
+
+    input[type=range] {
+        -webkit-appearance: none;
+        width: 100%;
+        height: $height;
+        margin: 0;
+        padding: 0;
+        background: transparent;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        background-color: #666;
+        opacity: 1;
+        background-color: white;
+        border: 1px solid lightgray;
+        border-radius: $handleHeight;
+        box-shadow: inset 0 -3px 3px rgba(0, 0, 0, 0.025), 0 1px 4px rgba(0, 0, 0, 0.15), 0 4px 4px rgba(0, 0, 0, 0.1);
+        content: '';
+        display: block;
+        height: $handleHeight;
+        width: $handleHeight;
+    }
+
+    span {
+        display: inline-block;
+        position: absolute;
+        top: -5px;
+        height: 100%;
+        width: 43%;
+    }
+
+    span:nth-child(1) {
+        left: 0;
+        border-bottom: $height solid $activeBarColor;
+    }
+
+    span:nth-child(2) {
+        right: 0;
+        border-bottom: $height solid $defaultBarColor;
+    }
+}
+

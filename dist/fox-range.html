@@ -1,0 +1,109 @@
+<link rel="stylesheet" href="css/fox-range.css"/>
+
+<fox-element name="fox-range" attributes="max min name step">
+    <script>
+    (function(env){
+        var handleWidth = 28;
+
+        function updateBarPosition() {
+            var range = this._range;
+            var rangeValue = range.value;
+            var rangeMax = range.max || 100;
+            rangeMax = parseInt(rangeMax);
+
+            var rangeWidth = range.offsetWidth;
+            var ratio = (range.value / rangeMax);
+
+            var handleRatio = handleWidth / rangeWidth;
+            var valueRatio = ratio - handleRatio * ratio;
+
+            this._leftBar.style.width = valueRatio * 100 + '%';
+            this._rightBar.style.width =
+                (1 - valueRatio - handleRatio) * 100 + '%';
+        }
+
+        function mixToRange() {
+            var range = this._range;
+            range.max = this.max;
+            range.min = this.min;
+            range.step = this.step;
+            range.value = this._value_;
+            range.name = this.name;
+        }
+
+        fox('fox-range', {
+
+            lifecycle: {
+                created: function() {
+                    this.max = this.max || 100;
+                    this.min = this.min || 0;
+                    this.step = this.step || 1;
+                    this.name = this.name || null;
+                    this._value_ = parseInt(this.getAttribute('value')) || 50;
+
+                    this.innerHTML = '<span></span><span></span><input type="range">';
+                    this._leftBar = this.firstElementChild;
+                    this._rightBar = this._leftBar.nextElementSibling;
+                    this._range = this.lastElementChild;
+                    this._inited = true;
+
+                    mixToRange.call(this);
+                },
+
+                inserted: function() {
+                    var me = this;
+
+                    // 增加延迟否则显示位置计算不准
+                    setTimeout(function() {
+                        updateBarPosition.call(me);
+                    }, 50);
+                },
+
+                attributeChanged: function() {
+                   this._inited && mixToRange.call(this);
+                },
+
+                disabledChanged: function() {
+                    this.classList.toggle('disabled', this.disabled);
+                }
+            },
+
+            events: {
+                'touchmove': function(){
+                    updateBarPosition.call(this);
+                },
+
+                'change': function(){
+                    this._value_ = this._range.value;
+                    updateBarPosition.call(this);
+                }
+            },
+
+            accessors: {
+                'value': {
+                    get: function(){
+                        return this._value_;
+                    },
+                    set: function(value){
+
+                        if (value === this._value_) {
+                            return;
+                        }
+
+                        this._value_ = value;
+                        this._range.value = value;
+
+                        fox.fireEvent(this._range, 'change');
+                    }
+                },
+
+                disabled: {
+                    attribute: {
+                        boolean: true
+                    }
+                }
+            }
+        });
+    })(this);
+    </script>
+</fox>
