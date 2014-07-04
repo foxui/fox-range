@@ -11,7 +11,6 @@
         <script src="../../fox-core/dist/foxui.js"></script>
         <link rel="import" href="../../fox-toolbar/dist/fox-toolbar.html"/>
         <link rel="import" href="../../fox-page/dist/fox-page.html"/>
-        <link rel="import" href="../../fox-icon/dist/fox-icon.html"/>
         <link rel="import" href="../../fox-page-content/dist/fox-page-content.html"/>
         <link rel="import" href="../dist/fox-range.html"/>
         <style>
@@ -41,7 +40,7 @@
             position: relative;
             padding: 20px;
             border-bottom: 1px solid #ccc;
-            background-color: #eee;
+            /*background-color: #eee;*/
         }
 
         li.selected{
@@ -66,23 +65,27 @@
             text-align: left;
         }
 
+        input[type=range]{
+            width: 200px;
+        }
+
         </style>
     </head>
     <body unresolved>
-        <fox-toolbar title="fox-range">
+        <fox-toolbar title="input type=range">
         </fox-toolbar>
 
         <fox-page>
             <fox-page-content>
 
                 <ul>
-                    <li><label>10</label><fox-range value=10></fox-range></li>
-                    <li><label>20</label><fox-range value=20></fox-range></li>
-                    <li><label>30</label><fox-range value=30></fox-range></li>
-                    <li><label>40</label><fox-range value=40></fox-range></li>
-                    <li><label>50</label><fox-range value=50></fox-range></li>
-                    <li><label>60</label><fox-range value=60></fox-range></li>
-                    <li><label>70</label><fox-range value=70 max=500 step=5></fox-range></li>
+                    <li><label>10</label><input type="range" value=10></li>
+                    <li><label>20</label><input type="range" value=20></li>
+                    <li><label>30</label><input type="range" value=30></li>
+                    <li><label>40</label><input type="range" value=40 disabled></li>
+                    <li><label>50</label><input type="range" value=50></li>
+                    <li><label>60</label><input type="range" value=60></li>
+                    <li><label>70</label><input type="range" value=70 max=500 step=5></li>
                 </ul>
             </fox-page-content>
         </fox-page>
@@ -93,8 +96,8 @@
             }, false);
 
             document.addEventListener('change', function(e){
-                var target = e.target.parentNode;
-                if (target.tagName.toLowerCase() === 'fox-range') {
+                var target = e.target;
+                if (target.tagName.toLowerCase() === 'input') {
                     target.previousElementSibling.textContent = target.value;
                 }
             }, false);
